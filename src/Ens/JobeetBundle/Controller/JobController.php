@@ -23,7 +23,7 @@ class JobController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('EnsJobeetBundle:Job')->findAll();
+        $entities = $em->getRepository('EnsJobeetBundle:Job')->getActiveJobs();
 
         return $this->render('EnsJobeetBundle:Job:index.html.twig', array(
             'entities' => $entities,

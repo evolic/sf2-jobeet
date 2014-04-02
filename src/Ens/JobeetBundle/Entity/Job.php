@@ -4,9 +4,12 @@ namespace Ens\JobeetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ens\JobeetBundle\Utils\Jobeet as Jobeet;
+use Ens\JobeetBundle\Repository\JobRepository;
 
 /**
  * Job
+ *
+ * @ORM\Entity(repositoryClass="Ens\JobeetBundle\Entity\JobRepository")
  */
 class Job
 {
@@ -505,5 +508,16 @@ class Job
     public function getLocationSlug()
     {
         return Jobeet::slugify($this->getLocation());
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setExpiresAtValue()
+    {
+        if (!$this->getExpiresAt()) {
+            $now = $this->getCreatedAt() ? $this->getCreatedAt()->format('U') : time();
+            $this->expires_at = new \DateTime(date('Y-m-d H:i:s', $now + 86400 * JobRepository::LATEST_DAYS));
+        }
     }
 }
