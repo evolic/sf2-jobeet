@@ -5,3 +5,7 @@ EnsJobeetBundle_job:
 ens_jobeet_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: EnsJobeetBundle:Default:index }
+
+EnsJobeetBundle_homepage:
+    pattern:  /
+    defaults: { _controller: EnsJobeetBundle:Job:index }
